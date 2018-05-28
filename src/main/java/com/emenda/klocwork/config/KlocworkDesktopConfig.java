@@ -56,7 +56,6 @@ public class KlocworkDesktopConfig extends AbstractDescribableImpl<KlocworkDeskt
 
     public ArgumentListBuilder getVersionCmd()
                                         throws IOException, InterruptedException {
-        //ArgumentListBuilder versionCmd = new ArgumentListBuilder("kwciagent");
         ArgumentListBuilder versionCmd = new ArgumentListBuilder("kwciagent");
         versionCmd.add("--version");
         return versionCmd;
