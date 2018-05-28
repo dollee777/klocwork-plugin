@@ -32,6 +32,7 @@ public class KlocworkGatewayDesktopConfig extends AbstractDescribableImpl<Klocwo
     }
     public String getThreshold() {
         return threshold;
+
     }
 
     public String getReportFile() {

@@ -65,12 +65,12 @@ public class KlocworkDesktopBuilder extends Builder implements SimpleBuildStep {
             if (!desktopConfig.hasExistingProject(workspace, envVars)) {
                 KlocworkUtil.executeCommand(launcher, listener,
                         workspace, envVars,
-                        desktopConfig.getKwcheckCreateCmd(envVars, workspace));
+                        desktopConfig.getKwciagentCreateCmd(envVars, workspace));
             } else {
                 // update existing project
                 KlocworkUtil.executeCommand(launcher, listener,
                         workspace, envVars,
-                        desktopConfig.getKwcheckSetCmd(envVars, workspace));
+                        desktopConfig.getKwciagentSetCmd(envVars, workspace));
             }
             String diffList = "";
             // should we perform incremental analysis?
@@ -91,12 +91,12 @@ public class KlocworkDesktopBuilder extends Builder implements SimpleBuildStep {
 
                 // check diff file list and get list of files to analyse, if none,
                 // diffList will be empty
-                diffList = desktopConfig.getKwcheckDiffList(envVars, workspace, launcher);
-                // if there are files to analyse, run kwcheck run
+                diffList = desktopConfig.getKwciagentDiffList(envVars, workspace, launcher);
+                // if there are files to analyse, run kwciagent run
                 if (!StringUtils.isEmpty(diffList)) {
                     KlocworkUtil.executeCommand(launcher, listener,
                             workspace, envVars,
-                            desktopConfig.getKwcheckRunCmd(envVars, workspace, diffList));
+                            desktopConfig.getKwciagentRunCmd(envVars, workspace, diffList));
                 }
                 else{
                     // we do not need to do anything!
@@ -107,16 +107,16 @@ public class KlocworkDesktopBuilder extends Builder implements SimpleBuildStep {
             else{
                 KlocworkUtil.executeCommand(launcher, listener,
                         workspace, envVars,
-                        desktopConfig.getKwcheckRunCmd(envVars, workspace, diffList));
+                        desktopConfig.getKwciagentRunCmd(envVars, workspace, diffList));
             }
 
             // Output any local issues
-            ByteArrayOutputStream kwcheckListOutputStream = KlocworkUtil.executeCommandParseOutput(launcher,
+            ByteArrayOutputStream kwciagentListOutputStream = KlocworkUtil.executeCommandParseOutput(launcher,
                     workspace, envVars,
-                    desktopConfig.getKwcheckListCmd(envVars, workspace, diffList));
-            if(kwcheckListOutputStream != null){
+                    desktopConfig.getKwciagentListCmd(envVars, workspace, diffList));
+            if(kwciagentListOutputStream != null){
                 FilePath xmlReport;
-                String path = envVars.expand(KlocworkUtil.getDefaultKwcheckReportFile(desktopConfig.getReportFile()));
+                String path = envVars.expand(KlocworkUtil.getDefaultKwciagentReportFile(desktopConfig.getReportFile()));
                 File isAbs = new File(path);
                 if(isAbs.isAbsolute()){
                     xmlReport = new FilePath (launcher.getChannel(), path);
@@ -126,7 +126,7 @@ public class KlocworkDesktopBuilder extends Builder implements SimpleBuildStep {
                 }
                 KlocworkUtil.generateKwListOutput(
                         xmlReport,
-                        kwcheckListOutputStream,
+                        kwciagentListOutputStream,
                         listener
                 );
             }
